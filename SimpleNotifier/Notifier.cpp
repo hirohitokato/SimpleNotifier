@@ -7,9 +7,11 @@
 #include <boost/any.hpp>
 
 #include "Notifier.hpp"
+
 struct NotificationToken {
     const int id;
     const NotificationBase &notification;
+    const boost::any &any_callback;
 
     NotificationToken(int id, const NotificationBase &notification): id(id), notification(notification){}
 };

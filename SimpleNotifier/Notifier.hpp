@@ -18,6 +18,7 @@ class NotificationToken;
 
 class Notifier {
     std::mutex mutex_;
+    // @TODO: vectorで持たず、std::map<int id, Token>で一元管理する
     std::map<NotificationBase, std::vector<boost::any>> observers_;
 
 public:
