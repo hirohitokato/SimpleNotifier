@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C675364529E2DD3000A5AF98 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C675364429E2DD3000A5AF98 /* main.cpp */; };
+		C675365029E2EEA800A5AF98 /* Notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C675364E29E2EEA800A5AF98 /* Notifier.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,9 @@
 /* Begin PBXFileReference section */
 		C675364129E2DD3000A5AF98 /* SimpleNotifier */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleNotifier; sourceTree = BUILT_PRODUCTS_DIR; };
 		C675364429E2DD3000A5AF98 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C675364C29E2DD5500A5AF98 /* Notification.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Notification.hpp; sourceTree = "<group>"; };
+		C675364E29E2EEA800A5AF98 /* Notifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Notifier.cpp; sourceTree = "<group>"; };
+		C675364F29E2EEA800A5AF98 /* Notifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Notifier.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				C675364429E2DD3000A5AF98 /* main.cpp */,
+				C675364C29E2DD5500A5AF98 /* Notification.hpp */,
+				C675364E29E2EEA800A5AF98 /* Notifier.cpp */,
+				C675364F29E2EEA800A5AF98 /* Notifier.hpp */,
 			);
 			path = SimpleNotifier;
 			sourceTree = "<group>";
@@ -119,6 +126,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C675365029E2EEA800A5AF98 /* Notifier.cpp in Sources */,
 				C675364529E2DD3000A5AF98 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,7 +249,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6BJKM8W6RD;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = /opt/homebrew/include;
+				LIBRARY_SEARCH_PATHS = "/opt/homebrew/lib/ ";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -251,7 +262,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6BJKM8W6RD;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = /opt/homebrew/include;
+				LIBRARY_SEARCH_PATHS = "/opt/homebrew/lib/ ";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
