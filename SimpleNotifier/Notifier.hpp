@@ -25,23 +25,18 @@ public:
 
 public:
     template <typename T>
-    NotificationToken* AddObserver(const Notification<T> &notification, std::function<void(T)> callback)
+    NotificationToken* AddObserver(const Notification<T> &notification, const std::function<void(T)> callback)
     {
-        std::unique_lock<std::mutex> guard(mutex_);
-
-        if (observers_.count(notification) == 0) {
-            observers_[notification] = std::vector<boost::any>{};
-        }
-        observers_[notification].push_back(boost::any(callback));
-
-        return nullptr;
+        auto any_callback = boost::any(callback);
+        return InternalAddObserver(notification, any_callback);
     }
-    NotificationToken* AddObserver(const Notification<void> &notification, std::function<void()> callback);
+
+    NotificationToken* AddObserver(const Notification<void> &notification, const std::function<void()> callback);
 
     void RemoveObserver(const NotificationToken *token);
 
     template <typename T>
-    void notify(const Notification<T> &notification, T value)
+    void Notify(const Notification<T> &notification, T value)
     {
         if (observers_.count(notification) == 0) {
             printf("no match notification(%s) found.\n", notification.GetName().c_str());
@@ -54,5 +49,8 @@ public:
         }
     }
 
-    void notify(const Notification<void> notification);
+    void Notify(const Notification<void> &notification);
+
+private:
+    NotificationToken* InternalAddObserver(const NotificationBase &notification, boost::any callback);
 };

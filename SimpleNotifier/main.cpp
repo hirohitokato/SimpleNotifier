@@ -13,7 +13,7 @@ int main(int argc, const char * argv[]) {
     Notifier notifier;
 
     auto hello_notification = Notification<int>("Hello");
-    notifier.notify(hello_notification, 1);
+    notifier.Notify(hello_notification, 1);
     notifier.AddObserver(hello_notification,
                          std::function([&](int a){
                              printf("(1)called: %d\n",a);
@@ -23,13 +23,13 @@ int main(int argc, const char * argv[]) {
                              printf("(2)called: %d\n",a);
                          }));
 
-    notifier.notify(hello_notification, 1);
+    notifier.Notify(hello_notification, 1);
 
     auto void_notification = Notification<void>("VOID");
     notifier.AddObserver(void_notification, std::function<void()>([&](){
         printf("called\n");
     }));
-    notifier.notify(void_notification);
+    notifier.Notify(void_notification);
     std::cout << "Hello, World!\n";
     return 0;
 }
