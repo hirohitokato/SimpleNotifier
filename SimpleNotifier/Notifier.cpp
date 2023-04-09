@@ -15,6 +15,18 @@ struct NotificationToken {
     :id(id), notification(notification){}
 };
 
+NotificationToken* Notifier::AddObserver(const Notification<void> &notification, std::function<void()> callback)
+{
+    std::unique_lock<std::mutex> guard(mutex_);
+
+    if (observers_.count(notification) == 0) {
+        observers_[notification] = std::vector<boost::any>{};
+    }
+    observers_[notification].push_back(boost::any(callback));
+
+    return nullptr;
+}
+
 void Notifier::RemoveObserver(const NotificationToken *token)
 {
     auto notification = token->notification;

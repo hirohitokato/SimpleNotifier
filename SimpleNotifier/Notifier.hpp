@@ -36,6 +36,7 @@ public:
 
         return nullptr;
     }
+    NotificationToken* AddObserver(const Notification<void> &notification, std::function<void()> callback);
 
     void RemoveObserver(const NotificationToken *token);
 
