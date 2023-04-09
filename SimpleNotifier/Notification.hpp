@@ -8,25 +8,25 @@
 
 #include <string>
 
-class NotifyBase {
+class NotificationBase {
     const std::string name_;
 public:
-    virtual ~NotifyBase() {}
-    std::string GetName() { return name_; }
+    virtual ~NotificationBase() {}
+    const std::string &GetName() const { return name_; }
 
-    bool operator<(const NotifyBase& other) const
+    bool operator<(const NotificationBase& other) const
     {
         return name_ < other.name_;
     }
 
 protected:
-    NotifyBase(const std::string &name): name_(name) {}
+    NotificationBase(const std::string &name): name_(name) {}
 };
 
 template <typename T>
-class Notification: public NotifyBase {
+class Notification: public NotificationBase {
     T* typeholder_;
 
 public:
-    Notification(const std::string &name): NotifyBase(name) {}
+    Notification(const std::string &name): NotificationBase(name) {}
 };
