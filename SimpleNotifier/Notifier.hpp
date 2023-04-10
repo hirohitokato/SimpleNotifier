@@ -14,12 +14,28 @@
 
 #include "Notification.hpp"
 
-class NotificationToken;
+class Notifier;
+
+struct NotificationToken {
+    const int id;
+    Notifier *notifier;
+    const NotificationBase &notification;
+    const boost::any any_callback;
+
+    NotificationToken(int id,
+                      Notifier *notifier,
+                      const NotificationBase &notification,
+                      const boost::any &any_callback):
+    id(id), notifier(notifier), notification(notification), any_callback(any_callback)
+    {}
+
+    ~NotificationToken();
+};
 
 class Notifier {
     std::mutex mutex_;
-    // @TODO: vectorで持たず、std::map<int id, Token>で一元管理する
-    std::map<NotificationBase, std::vector<boost::any>> observers_;
+    int token_counter_ = 0;
+    std::map<NotificationBase, std::vector<NotificationToken*>> observers_;
 
 public:
     Notifier(): observers_() {}
@@ -44,8 +60,8 @@ public:
             return;
         }
 
-        for (auto any_observer : observers_[notification]) {
-            auto callback = boost::any_cast<std::function<void(T)>>(any_observer);
+        for (auto token : observers_[notification]) {
+            auto callback = boost::any_cast<std::function<void(T)>>(token->any_callback);
             callback(value);
         }
     }
@@ -53,5 +69,5 @@ public:
     void Notify(const Notification<void> &notification);
 
 private:
-    NotificationToken* InternalAddObserver(const NotificationBase &notification, boost::any callback);
+    NotificationToken* InternalAddObserver(const NotificationBase &notification, const boost::any &callback);
 };

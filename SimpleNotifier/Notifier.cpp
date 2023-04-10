@@ -4,17 +4,15 @@
 //  Created by Hirohiyo Kato
 //
 
+#include <algorithm>
 #include <boost/any.hpp>
 
 #include "Notifier.hpp"
 
-struct NotificationToken {
-    const int id;
-    const NotificationBase &notification;
-    const boost::any &any_callback;
-
-    NotificationToken(int id, const NotificationBase &notification): id(id), notification(notification){}
-};
+NotificationToken::~NotificationToken()
+{
+    notifier->RemoveObserver(this);
+}
 
 NotificationToken* Notifier::AddObserver(const Notification<void> &notification, const std::function<void()> callback)
 {
@@ -24,12 +22,18 @@ NotificationToken* Notifier::AddObserver(const Notification<void> &notification,
 
 void Notifier::RemoveObserver(const NotificationToken *token)
 {
-    auto notification = token->notification;
+    auto &notification = token->notification;
     std::unique_lock<std::mutex> guard(mutex_);
 
-    auto it = observers_.find(notification);
-    if (it != observers_.end()) {
-        observers_.erase(it);
+    auto it_notification = std::find_if(observers_.begin(), observers_.end(),
+                                        [&notification](auto o){ return o.first.GetName() == notification.GetName(); });
+    if (it_notification != observers_.end()) {
+        auto it = std::find((*it_notification).second.begin(),
+                            (*it_notification).second.end(),
+                            token);
+        if (it != (*it_notification).second.end()) {
+            (*it_notification).second.erase(it);
+        }
     }
 }
 
@@ -39,21 +43,24 @@ void Notifier::Notify(const Notification<void> &notification)
         printf("no match notification(%s) found.\n", notification.GetName().c_str());
         return;
     }
-    for (auto any_observer : observers_[notification]) {
-        auto callback = boost::any_cast<std::function<void()>>(any_observer);
+    
+    for (auto token : observers_[notification]) {
+        auto callback = boost::any_cast<std::function<void()>>(token->any_callback);
         callback();
     }
 }
 
-NotificationToken* Notifier::InternalAddObserver(const NotificationBase &notification, boost::any any_callback)
+NotificationToken* Notifier::InternalAddObserver(const NotificationBase &notification, const boost::any &any_callback)
 {
     std::unique_lock<std::mutex> guard(mutex_);
 
-    if (observers_.count(notification) == 0) {
-        observers_[notification] = std::vector<boost::any>{};
+    auto token = new NotificationToken(token_counter_++, this, notification, any_callback);
+    auto it = std::find_if(observers_.begin(), observers_.end(),
+                           [&notification](auto o){ return o.first.GetName() == notification.GetName(); });
+    if (it == observers_.end()) {
+        observers_[notification] = std::vector<NotificationToken*>{};
     }
-    observers_[notification].push_back(any_callback);
+    observers_[notification].push_back(token);
 
-    return nullptr;
-
+    return token;
 }

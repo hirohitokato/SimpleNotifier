@@ -14,16 +14,20 @@ int main(int argc, const char * argv[]) {
 
     auto hello_notification = Notification<int>("Hello");
     notifier.Notify(hello_notification, 1);
-    notifier.AddObserver(hello_notification,
+    auto token1 = notifier.AddObserver(hello_notification,
                          std::function([&](int a){
                              printf("(1)called: %d\n",a);
                          }));
-    notifier.AddObserver(hello_notification,
+    auto token2 = notifier.AddObserver(hello_notification,
                          std::function([&](int a){
                              printf("(2)called: %d\n",a);
                          }));
 
     notifier.Notify(hello_notification, 1);
+    delete token1;
+    notifier.Notify(hello_notification, 2);
+    notifier.RemoveObserver(token2);
+    notifier.Notify(hello_notification, 3);
 
     auto void_notification = Notification<void>("VOID");
     notifier.AddObserver(void_notification, std::function<void()>([&](){
