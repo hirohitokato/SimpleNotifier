@@ -8,8 +8,7 @@
 
 #include <string>
 
-/// A base class for Notification class, to hold any type of Notification
-/// objects to one container.
+/// A base class for Notification class, to hold any type of Notification objects to one container.
 class NotificationBase {
     const std::string name_;
 public:

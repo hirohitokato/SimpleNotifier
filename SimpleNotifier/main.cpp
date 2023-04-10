@@ -31,7 +31,7 @@ int main(int argc, const char * argv[]) {
 //        delete token1;
         notifier.Notify(HelloNotification, 2);
         std::cout << "----------------------\n";
-//        notifier.RemoveObserver(token2);
+        notifier.RemoveObserver(token2);
         notifier.Notify(HelloNotification, 3);
         std::cout << "----------------------\n";
 
