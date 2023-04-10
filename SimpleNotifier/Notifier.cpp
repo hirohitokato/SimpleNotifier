@@ -11,19 +11,16 @@
 
 NotificationToken::~NotificationToken()
 {
+    printf("DESTRUCT: %d\n", this->id);
     notifier->RemoveObserver(this);
 }
 
 Notifier::~Notifier()
 {
-    printf("Notifier::~Notifier()\n");
     for (auto observer : observers_) {
-        printf("|  [%s]:", observer.first.GetName().c_str());
         for (auto token : observer.second) {
-            printf(" %d,", token->id);
             delete token;
         }
-        printf("\n");
     }
 }
 
@@ -52,7 +49,8 @@ void Notifier::RemoveObserver(const NotificationToken *token)
 
 void Notifier::Notify(const Notification<void> &notification)
 {
-    if (observers_.count(notification) == 0) {
+    if (observers_.count(notification) == 0
+        || observers_[notification].size() == 0) {
         printf("no match notification(%s) found.\n", notification.GetName().c_str());
         return;
     }
