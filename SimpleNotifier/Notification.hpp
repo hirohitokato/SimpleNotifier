@@ -8,21 +8,21 @@
 
 #include <string>
 
+/// A base class for Notification class, to hold any type of Notification
+/// objects to one container.
 class NotificationBase {
     const std::string name_;
 public:
     virtual ~NotificationBase() {}
     const std::string &GetName() const { return name_; }
 
-    bool operator<(const NotificationBase& other) const
-    {
-        return name_ < other.name_;
-    }
+    bool operator<(const NotificationBase& other) const { return name_ < other.name_; }
 
 protected:
     NotificationBase(const std::string &name): name_(name) {}
 };
 
+/// An object containing information broadcast to all registered observers.
 template <typename T>
 class Notification: public NotificationBase {
     T* typeholder_;

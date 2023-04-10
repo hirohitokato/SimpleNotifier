@@ -11,7 +11,6 @@
 
 NotificationToken::~NotificationToken()
 {
-    printf("DESTRUCT: %d\n", this->id);
     notifier_->RemoveObserver(this);
 }
 
