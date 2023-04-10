@@ -12,7 +12,7 @@
 NotificationToken::~NotificationToken()
 {
     printf("DESTRUCT: %d\n", this->id);
-    notifier->RemoveObserver(this);
+    notifier_->RemoveObserver(this);
 }
 
 Notifier::~Notifier()
@@ -32,7 +32,7 @@ NotificationToken* Notifier::AddObserver(const Notification<void> &notification,
 
 void Notifier::RemoveObserver(const NotificationToken *token)
 {
-    auto &notification = token->notification;
+    auto &notification = token->notification_;
     std::unique_lock<std::mutex> guard(mutex_);
 
     auto it_notification = std::find_if(observers_.begin(), observers_.end(),
@@ -56,7 +56,7 @@ void Notifier::Notify(const Notification<void> &notification)
     }
     
     for (auto token : observers_[notification]) {
-        auto callback = boost::any_cast<std::function<void()>>(token->any_callback);
+        auto callback = boost::any_cast<std::function<void()>>(token->any_callback_);
         callback();
     }
 }

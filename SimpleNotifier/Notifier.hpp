@@ -21,19 +21,21 @@ class Notifier;
 ///
 /// It is not possible to instantiate the object, because the constructor is not public. You can get the object
 /// via a Notifier's AddObserver() method.
-struct NotificationToken {
+class NotificationToken {
+    // Make Notifier a friend to act as a kind of opaque object.
     friend Notifier;
-private:
+public:
     const int id;
-    Notifier *notifier;
-    const NotificationBase &notification;
-    const boost::any any_callback;
+private:
+    Notifier *notifier_;
+    const NotificationBase &notification_;
+    const boost::any any_callback_;
 
     NotificationToken(int id,
                       Notifier *notifier,
                       const NotificationBase &notification,
                       const boost::any &any_callback):
-    id(id), notifier(notifier), notification(notification), any_callback(any_callback)
+    id(id), notifier_(notifier), notification_(notification), any_callback_(any_callback)
     {}
 
     ~NotificationToken();
@@ -98,7 +100,7 @@ public:
         }
 
         for (auto token : observers_[notification]) {
-            auto callback = boost::any_cast<std::function<void(T)>>(token->any_callback);
+            auto callback = boost::any_cast<std::function<void(T)>>(token->any_callback_);
             callback(value);
         }
     }
