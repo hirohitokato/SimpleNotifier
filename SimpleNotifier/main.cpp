@@ -10,6 +10,7 @@
 #include "Notification.hpp"
 
 int main(int argc, const char * argv[]) {
+    
     Notifier notifier;
 
     auto hello_notification = Notification<int>("Hello");
@@ -25,10 +26,10 @@ int main(int argc, const char * argv[]) {
 
     notifier.Notify(hello_notification, 1);
     std::cout << "----------------------\n";
-    delete token1;
+//    delete token1;
     notifier.Notify(hello_notification, 2);
     std::cout << "----------------------\n";
-    notifier.RemoveObserver(token2);
+//    notifier.RemoveObserver(token2);
     notifier.Notify(hello_notification, 3);
     std::cout << "----------------------\n";
 

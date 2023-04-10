@@ -16,7 +16,15 @@ NotificationToken::~NotificationToken()
 
 Notifier::~Notifier()
 {
-    
+    printf("Notifier::~Notifier()\n");
+    for (auto observer : observers_) {
+        printf("|  [%s]:", observer.first.GetName().c_str());
+        for (auto token : observer.second) {
+            printf(" %d,", token->id);
+            delete token;
+        }
+        printf("\n");
+    }
 }
 
 NotificationToken* Notifier::AddObserver(const Notification<void> &notification, const std::function<void()> callback)

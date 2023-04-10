@@ -56,12 +56,13 @@ public:
 
     /// Add an entry to the notifier to receive notifications that passed to the provided functional object.
     ///
-    /// This is an explicit specialization of AddObserver<T>().
+    /// This is an overload of AddObserver\<T\>().
+    /// - FIXME: Use explicit specialization
     ///
     /// - Parameters:
     ///   - notification: The object of the notification to register for delivery to the observer.
     ///   - callback: The callback that executes when receiving a notification.
-    NotificationToken* AddObserver(const Notification<void> &notification, const std::function<void()> callback);
+    NotificationToken* AddObserver(const Notification<void> &notification, const std::function<void(void)> callback);
 
     void RemoveObserver(const NotificationToken *token);
 
