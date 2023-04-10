@@ -14,6 +14,11 @@ NotificationToken::~NotificationToken()
     notifier->RemoveObserver(this);
 }
 
+Notifier::~Notifier()
+{
+    
+}
+
 NotificationToken* Notifier::AddObserver(const Notification<void> &notification, const std::function<void()> callback)
 {
     auto any_callback = boost::any(callback);

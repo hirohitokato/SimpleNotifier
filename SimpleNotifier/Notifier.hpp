@@ -39,8 +39,14 @@ class Notifier {
 
 public:
     Notifier(): observers_() {}
+    virtual ~Notifier();
 
 public:
+    /// Add an entry to the notifier to receive notifications that passed to the provided functional object.
+    ///
+    /// - Parameters:
+    ///   - notification: The object of the notification to register for delivery to the observer.
+    ///   - callback: The callback that executes when receiving a notification.
     template <typename T>
     NotificationToken* AddObserver(const Notification<T> &notification, const std::function<void(T)> callback)
     {
@@ -48,6 +54,13 @@ public:
         return InternalAddObserver(notification, any_callback);
     }
 
+    /// Add an entry to the notifier to receive notifications that passed to the provided functional object.
+    ///
+    /// This is an explicit specialization of AddObserver<T>().
+    ///
+    /// - Parameters:
+    ///   - notification: The object of the notification to register for delivery to the observer.
+    ///   - callback: The callback that executes when receiving a notification.
     NotificationToken* AddObserver(const Notification<void> &notification, const std::function<void()> callback);
 
     void RemoveObserver(const NotificationToken *token);
@@ -55,7 +68,8 @@ public:
     template <typename T>
     void Notify(const Notification<T> &notification, T value)
     {
-        if (observers_.count(notification) == 0) {
+        if (observers_.count(notification) == 0
+            || observers_[notification].size() == 0) {
             printf("no match notification(%s) found.\n", notification.GetName().c_str());
             return;
         }
