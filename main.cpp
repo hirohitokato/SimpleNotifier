@@ -6,8 +6,7 @@
 
 #include <iostream>
 #include <cstdio>
-#include "Notifier.hpp"
-#include "Notification.hpp"
+#include "simple_notifier.hpp"
 
 static const auto HelloNotification = Notification<int>("Hello");
 static const auto VoidNotification = Notification<void>("Non Argument");

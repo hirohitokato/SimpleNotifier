@@ -12,14 +12,7 @@
 #include <mutex>
 #include <boost/any.hpp>
 
-#include "Notification.hpp"
-
-class Notifier;
-class NotificationToken;
-
-struct _Removable {
-    virtual void RemoveObserver(const NotificationToken *token) = 0;
-};
+#include "_simple_notifier.hpp"
 
 /// A token object to act as the observer. Notifier strongly holds this return value until you remove the observer registration.
 ///
@@ -28,13 +21,15 @@ struct _Removable {
 class NotificationToken {
     // Make Notifier a friend to act as a kind of opaque object.
     friend Notifier;
-public:
-    const int id;
-private:
+
     _Removable *notifier_;
     const NotificationBase &notification_;
     const boost::any any_callback_;
 
+public:
+    const int id;
+
+private:
     NotificationToken(int id,
                       _Removable *notifier,
                       const NotificationBase &notification,
@@ -115,7 +110,6 @@ public:
             }
         }
     }
-
 
     /// Posts a notification with a given Notification object and information.
     ///

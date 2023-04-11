@@ -29,3 +29,11 @@ class Notification: public NotificationBase {
 public:
     Notification(const std::string &name): NotificationBase(name) {}
 };
+
+
+class Notifier;
+class NotificationToken;
+
+struct _Removable {
+    virtual void RemoveObserver(const NotificationToken *token) = 0;
+};

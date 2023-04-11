@@ -25,8 +25,8 @@
 /* Begin PBXFileReference section */
 		C675364129E2DD3000A5AF98 /* SimpleNotifier */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleNotifier; sourceTree = BUILT_PRODUCTS_DIR; };
 		C675364429E2DD3000A5AF98 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		C675364C29E2DD5500A5AF98 /* Notification.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Notification.hpp; sourceTree = "<group>"; };
-		C675364F29E2EEA800A5AF98 /* Notifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Notifier.hpp; sourceTree = "<group>"; };
+		C675364C29E2DD5500A5AF98 /* _simple_notifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _simple_notifier.hpp; sourceTree = "<group>"; };
+		C675364F29E2EEA800A5AF98 /* simple_notifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = simple_notifier.hpp; sourceTree = "<group>"; };
 		C675365129E59BF400A5AF98 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -62,8 +62,8 @@
 		C675364329E2DD3000A5AF98 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				C675364C29E2DD5500A5AF98 /* Notification.hpp */,
-				C675364F29E2EEA800A5AF98 /* Notifier.hpp */,
+				C675364F29E2EEA800A5AF98 /* simple_notifier.hpp */,
+				C675364C29E2DD5500A5AF98 /* _simple_notifier.hpp */,
 			);
 			path = include;
 			sourceTree = "<group>";
