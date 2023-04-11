@@ -35,5 +35,5 @@ class Notifier;
 class NotificationToken;
 
 struct _Removable {
-    virtual void RemoveObserver(const NotificationToken *token) = 0;
+    virtual void remove_observer(const NotificationToken *token) = 0;
 };

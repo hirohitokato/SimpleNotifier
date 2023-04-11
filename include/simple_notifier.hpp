@@ -17,7 +17,7 @@
 /// A token object to act as the observer. Notifier strongly holds this return value until you remove the observer registration.
 ///
 /// It is not possible to instantiate the object, because the constructor is not public. You can get the object
-/// via a Notifier's AddObserver() method.
+/// via a Notifier's add_observer() method.
 class NotificationToken {
     // Make Notifier a friend to act as a kind of opaque object.
     friend Notifier;
@@ -27,6 +27,7 @@ class NotificationToken {
     const boost::any any_callback_;
 
 public:
+    /// An identifier of the token object.
     const int id;
 
 private:
@@ -39,7 +40,7 @@ private:
 
     ~NotificationToken()
     {
-        notifier_->RemoveObserver(this);
+        notifier_->remove_observer(this);
     }
 };
 
@@ -69,15 +70,15 @@ public:
     /// - Returns:
     ///  - A token for the added entry. Since this method returns newed instance, delete it when it becomes unnecessary.
     template <typename T>
-    NotificationToken* AddObserver(const Notification<T> &notification, const std::function<void(T)> callback)
+    NotificationToken* add_observer(const Notification<T> &notification, const std::function<void(T)> callback)
     {
         auto any_callback = boost::any(callback);
-        return InternalAddObserver(notification, any_callback);
+        return add_observer_prv(notification, any_callback);
     }
 
     /// Add an entry to the notifier to receive notifications that passed to the provided functional object.
     ///
-    /// This is an overload of AddObserver\<T\>().
+    /// This is an overload of add_observer\<T\>().
     /// - FIXME: Use explicit specialization
     ///
     /// - Parameters:
@@ -85,16 +86,16 @@ public:
     ///   - callback: The callback that executes when receiving a notification.
     /// - Returns:
     ///  - A token for the added entry. Since this method returns newed instance, delete it when it becomes unnecessary.
-    NotificationToken* AddObserver(const Notification<void> &notification, const std::function<void(void)> callback)
+    NotificationToken* add_observer(const Notification<void> &notification, const std::function<void(void)> callback)
     {
         auto any_callback = boost::any(callback);
-        return InternalAddObserver(notification, any_callback);
+        return add_observer_prv(notification, any_callback);
     }
 
     /// Removes matching entries from the notifier's dispatch table.
     ///
     /// - Parameter token: The token to remove from dispatch table.
-    void RemoveObserver(const NotificationToken *token)
+    void remove_observer(const NotificationToken *token)
     {
         auto &notification = token->notification_;
         std::unique_lock<std::mutex> guard(mutex_);
@@ -117,7 +118,7 @@ public:
     ///   - notification: The object of the notification.
     ///   - value: An associated value with the notification.
     template <typename T>
-    void Notify(const Notification<T> &notification, T value)
+    void notify(const Notification<T> &notification, T value)
     {
         if (observers_.count(notification) == 0
             || observers_[notification].size() == 0) {
@@ -133,13 +134,13 @@ public:
 
     /// Posts a notification with a given Notification object and information.
     ///
-    /// This is an overload of Notify\<T\>().
+    /// This is an overload of notify\<T\>().
     /// - FIXME: Use explicit specialization
     ///
     /// - Parameters:
     ///   - notification: The object of the notification.
     ///   - value: An associated value with the notification.
-    void Notify(const Notification<void> &notification)
+    void notify(const Notification<void> &notification)
     {
         if (observers_.count(notification) == 0
             || observers_[notification].size() == 0) {
@@ -154,7 +155,7 @@ public:
     }
 
 private:
-    NotificationToken* InternalAddObserver(const NotificationBase &notification, const boost::any &any_callback)
+    NotificationToken* add_observer_prv(const NotificationBase &notification, const boost::any &any_callback)
     {
         std::unique_lock<std::mutex> guard(mutex_);
 
