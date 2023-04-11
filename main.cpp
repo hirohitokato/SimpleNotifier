@@ -10,6 +10,7 @@
 #include "Notification.hpp"
 
 static const auto HelloNotification = Notification<int>("Hello");
+static const auto VoidNotification = Notification<void>("Non Argument");
 
 int main(int argc, const char * argv[]) {
     
@@ -35,11 +36,10 @@ int main(int argc, const char * argv[]) {
         notifier.Notify(HelloNotification, 3);
         std::cout << "----------------------\n";
 
-        auto void_notification = Notification<void>("VOID");
-        notifier.AddObserver(void_notification, std::function<void()>([&](){
+        notifier.AddObserver(VoidNotification, std::function<void()>([&](){
             printf("called\n");
         }));
-        notifier.Notify(void_notification);
+        notifier.Notify(VoidNotification);
     }
 
     return 0;

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C675364529E2DD3000A5AF98 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C675364429E2DD3000A5AF98 /* main.cpp */; };
-		C675365029E2EEA800A5AF98 /* Notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C675364E29E2EEA800A5AF98 /* Notifier.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,8 +26,8 @@
 		C675364129E2DD3000A5AF98 /* SimpleNotifier */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleNotifier; sourceTree = BUILT_PRODUCTS_DIR; };
 		C675364429E2DD3000A5AF98 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C675364C29E2DD5500A5AF98 /* Notification.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Notification.hpp; sourceTree = "<group>"; };
-		C675364E29E2EEA800A5AF98 /* Notifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Notifier.cpp; sourceTree = "<group>"; };
 		C675364F29E2EEA800A5AF98 /* Notifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Notifier.hpp; sourceTree = "<group>"; };
+		C675365129E59BF400A5AF98 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +44,9 @@
 		C675363829E2DD3000A5AF98 = {
 			isa = PBXGroup;
 			children = (
-				C675364329E2DD3000A5AF98 /* SimpleNotifier */,
+				C675365129E59BF400A5AF98 /* README.md */,
+				C675364429E2DD3000A5AF98 /* main.cpp */,
+				C675364329E2DD3000A5AF98 /* include */,
 				C675364229E2DD3000A5AF98 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,15 +59,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C675364329E2DD3000A5AF98 /* SimpleNotifier */ = {
+		C675364329E2DD3000A5AF98 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				C675364429E2DD3000A5AF98 /* main.cpp */,
 				C675364C29E2DD5500A5AF98 /* Notification.hpp */,
-				C675364E29E2EEA800A5AF98 /* Notifier.cpp */,
 				C675364F29E2EEA800A5AF98 /* Notifier.hpp */,
 			);
-			path = SimpleNotifier;
+			path = include;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,7 +125,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C675365029E2EEA800A5AF98 /* Notifier.cpp in Sources */,
 				C675364529E2DD3000A5AF98 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,7 +15,11 @@
 #include "Notification.hpp"
 
 class Notifier;
+class NotificationToken;
 
+struct _Removable {
+    virtual void RemoveObserver(const NotificationToken *token) = 0;
+};
 
 /// A token object to act as the observer. Notifier strongly holds this return value until you remove the observer registration.
 ///
@@ -27,30 +31,40 @@ class NotificationToken {
 public:
     const int id;
 private:
-    Notifier *notifier_;
+    _Removable *notifier_;
     const NotificationBase &notification_;
     const boost::any any_callback_;
 
     NotificationToken(int id,
-                      Notifier *notifier,
+                      _Removable *notifier,
                       const NotificationBase &notification,
                       const boost::any &any_callback):
     id(id), notifier_(notifier), notification_(notification), any_callback_(any_callback)
     {}
 
-    ~NotificationToken();
+    ~NotificationToken()
+    {
+        notifier_->RemoveObserver(this);
+    }
 };
 
 
 /// A notification dispatch mechanism that enables the broadcast of information to registered observers.
-class Notifier {
+class Notifier: public _Removable {
     std::mutex mutex_;
     int token_counter_ = 0;
     std::map<NotificationBase, std::vector<NotificationToken*>> observers_;
 
 public:
     Notifier(): observers_() {}
-    virtual ~Notifier();
+    virtual ~Notifier()
+    {
+        for (auto observer : observers_) {
+            for (auto token : observer.second) {
+                delete token;
+            }
+        }
+    }
 
     /// Add an entry to the notifier to receive notifications that passed to the provided functional object.
     ///
@@ -76,13 +90,31 @@ public:
     ///   - callback: The callback that executes when receiving a notification.
     /// - Returns:
     ///  - A token for the added entry. Since this method returns newed instance, delete it when it becomes unnecessary.
-    NotificationToken* AddObserver(const Notification<void> &notification, const std::function<void(void)> callback);
-
+    NotificationToken* AddObserver(const Notification<void> &notification, const std::function<void(void)> callback)
+    {
+        auto any_callback = boost::any(callback);
+        return InternalAddObserver(notification, any_callback);
+    }
 
     /// Removes matching entries from the notifier's dispatch table.
     ///
     /// - Parameter token: The token to remove from dispatch table.
-    void RemoveObserver(const NotificationToken *token);
+    void RemoveObserver(const NotificationToken *token)
+    {
+        auto &notification = token->notification_;
+        std::unique_lock<std::mutex> guard(mutex_);
+
+        auto it_notification = std::find_if(observers_.begin(), observers_.end(),
+                                            [&notification](auto o){ return o.first.GetName() == notification.GetName(); });
+        if (it_notification != observers_.end()) {
+            auto it = std::find((*it_notification).second.begin(),
+                                (*it_notification).second.end(),
+                                token);
+            if (it != (*it_notification).second.end()) {
+                (*it_notification).second.erase(it);
+            }
+        }
+    }
 
 
     /// Posts a notification with a given Notification object and information.
@@ -113,8 +145,33 @@ public:
     /// - Parameters:
     ///   - notification: The object of the notification.
     ///   - value: An associated value with the notification.
-    void Notify(const Notification<void> &notification);
+    void Notify(const Notification<void> &notification)
+    {
+        if (observers_.count(notification) == 0
+            || observers_[notification].size() == 0) {
+            printf("no match notification(%s) found.\n", notification.GetName().c_str());
+            return;
+        }
+
+        for (auto token : observers_[notification]) {
+            auto callback = boost::any_cast<std::function<void()>>(token->any_callback_);
+            callback();
+        }
+    }
 
 private:
-    NotificationToken* InternalAddObserver(const NotificationBase &notification, const boost::any &callback);
+    NotificationToken* InternalAddObserver(const NotificationBase &notification, const boost::any &any_callback)
+    {
+        std::unique_lock<std::mutex> guard(mutex_);
+
+        auto token = new NotificationToken(token_counter_++, this, notification, any_callback);
+        auto it = std::find_if(observers_.begin(), observers_.end(),
+                               [&notification](auto o){ return o.first.GetName() == notification.GetName(); });
+        if (it == observers_.end()) {
+            observers_[notification] = std::vector<NotificationToken*>{};
+        }
+        observers_[notification].push_back(token);
+
+        return token;
+    }
 };
