@@ -11,6 +11,7 @@
 #include <functional>
 #include <mutex>
 #include <boost/any.hpp> // TODO: これを不要にする
+#include "any.hpp"
 
 // * any_callbackを格納できれば良い
 

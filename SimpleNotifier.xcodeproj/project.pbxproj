@@ -28,6 +28,7 @@
 		C675364C29E2DD5500A5AF98 /* _simple_notifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _simple_notifier.hpp; sourceTree = "<group>"; };
 		C675364F29E2EEA800A5AF98 /* simple_notifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = simple_notifier.hpp; sourceTree = "<group>"; };
 		C675365129E59BF400A5AF98 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		C675366629E703F500A5AF98 /* any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +65,7 @@
 			children = (
 				C675364F29E2EEA800A5AF98 /* simple_notifier.hpp */,
 				C675364C29E2DD5500A5AF98 /* _simple_notifier.hpp */,
+				C675366629E703F500A5AF98 /* any.hpp */,
 			);
 			path = include;
 			sourceTree = "<group>";
