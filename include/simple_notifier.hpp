@@ -10,7 +10,9 @@
 #include <vector>
 #include <functional>
 #include <mutex>
-#include <boost/any.hpp>
+#include <boost/any.hpp> // TODO: これを不要にする
+
+// * any_callbackを格納できれば良い
 
 #include "_simple_notifier.hpp"
 
