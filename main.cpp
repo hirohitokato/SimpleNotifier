@@ -11,6 +11,8 @@
 static const auto HelloNotification = Notification<int>("Hello");
 static const auto VoidNotification = Notification<void>("Non Argument");
 
+Notifier sharedNotifier;
+
 int main(int argc, const char * argv[]) {
     
     {
