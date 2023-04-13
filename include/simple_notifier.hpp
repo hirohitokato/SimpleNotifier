@@ -12,8 +12,6 @@
 #include <mutex>
 #include "any.hpp"
 
-// * any_callbackを格納できれば良い
-
 #include "_simple_notifier.hpp"
 
 /// A token object to act as the observer. Notifier strongly holds this return value until you remove the observer registration.
