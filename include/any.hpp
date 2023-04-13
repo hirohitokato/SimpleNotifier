@@ -7,6 +7,8 @@
 #pragma once
 
 /// A variant type holder by using type erasure technique.
+/// @see https://pknight.hatenablog.com/entry/20100325/1269539749
+/// @see https://www.boost.org/doc/libs/1_61_0/doc/html/any.html
 class Any {
 private:
     // non template base class
@@ -64,7 +66,7 @@ public:
 
     template <typename T>
     const T& any_cast() const {
-        return dynamic_cast<_Any<T>&>(*obj_).value_;
+        return dynamic_cast< _Any<T>& >(*obj_).value_;
     }
 
     const std::type_info& type() const {

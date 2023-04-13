@@ -10,7 +10,6 @@
 #include <vector>
 #include <functional>
 #include <mutex>
-#include <boost/any.hpp> // TODO: これを不要にする
 #include "any.hpp"
 
 // * any_callbackを格納できれば良い
@@ -27,7 +26,7 @@ class NotificationToken {
 
     _Removable *notifier_;
     const NotificationBase &notification_;
-    const boost::any any_callback_;
+    const Any any_callback_;
 
 public:
     /// An identifier of the token object.
@@ -37,7 +36,7 @@ private:
     NotificationToken(int id,
                       _Removable *notifier,
                       const NotificationBase &notification,
-                      const boost::any &any_callback):
+                      const Any &any_callback):
     id(id), notifier_(notifier), notification_(notification), any_callback_(any_callback)
     {}
 
@@ -75,7 +74,7 @@ public:
     template <typename T>
     NotificationToken* add_observer(const Notification<T> &notification, const std::function<void(T)> callback)
     {
-        auto any_callback = boost::any(callback);
+        auto any_callback = Any(callback);
         return add_observer_prv(notification, any_callback);
     }
 
@@ -91,7 +90,7 @@ public:
     ///  - A token for the added entry. Since this method returns newed instance, delete it when it becomes unnecessary.
     NotificationToken* add_observer(const Notification<void> &notification, const std::function<void(void)> callback)
     {
-        auto any_callback = boost::any(callback);
+        auto any_callback = Any(callback);
         return add_observer_prv(notification, any_callback);
     }
 
@@ -130,7 +129,7 @@ public:
         }
 
         for (auto token : observers_[notification]) {
-            auto callback = boost::any_cast<std::function<void(T)>>(token->any_callback_);
+            auto callback = (token->any_callback_).template any_cast< std::function<void(T)> >();
             callback(value);
         }
     }
@@ -152,13 +151,13 @@ public:
         }
 
         for (auto token : observers_[notification]) {
-            auto callback = boost::any_cast<std::function<void()>>(token->any_callback_);
+            auto callback = (token->any_callback_).any_cast<std::function<void()>>();
             callback();
         }
     }
 
 private:
-    NotificationToken* add_observer_prv(const NotificationBase &notification, const boost::any &any_callback)
+    NotificationToken* add_observer_prv(const NotificationBase &notification, const Any &any_callback)
     {
         std::unique_lock<std::mutex> guard(mutex_);
 
