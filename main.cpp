@@ -8,6 +8,8 @@
 #include <cstdio>
 #include "simple_notifier.hpp"
 
+using namespace SimpleNotifier;
+
 static const auto HelloNotification = Notification<int>("Hello");
 static const auto VoidNotification = Notification<void>("Non Argument");
 

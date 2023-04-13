@@ -47,7 +47,7 @@
 			children = (
 				C675365129E59BF400A5AF98 /* README.md */,
 				C675364429E2DD3000A5AF98 /* main.cpp */,
-				C675364329E2DD3000A5AF98 /* include */,
+				C675364329E2DD3000A5AF98 /* simple_notifier */,
 				C675364229E2DD3000A5AF98 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,14 +60,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C675364329E2DD3000A5AF98 /* include */ = {
+		C675364329E2DD3000A5AF98 /* simple_notifier */ = {
 			isa = PBXGroup;
 			children = (
 				C675364F29E2EEA800A5AF98 /* simple_notifier.hpp */,
 				C675364C29E2DD5500A5AF98 /* _simple_notifier.hpp */,
 				C675366629E703F500A5AF98 /* any.hpp */,
 			);
-			path = include;
+			path = simple_notifier;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
