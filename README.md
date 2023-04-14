@@ -9,6 +9,9 @@ Copy header 2 files(`simple_notifier.hpp` & `_simple_notifier.hpp`) to your fold
 ## How to use
 
 ```cpp
+// Include the header file.
+#include "simple_notifier.hpp"
+
 // A notification object that it can handle with one integer value.
 const auto HelloNotification = Notification<int>("Hello SimpleNotifier");
 
@@ -30,11 +33,12 @@ delete token; or
 notifier.remove_observer(token);
 ```
 
+1. Include "simple_notifier.hpp" header file.
 1. Create shared `Notificatoin` object with idenfier string.
-2. Prepare shared `Notifier` object. Keep the object within your project.
-3. Register a callback to the notifier object.
-4. Post a notification with an associated value.
-5. (Unobserve the notification)
+1. Prepare shared `Notifier` object. Keep the object within your project.
+1. Register a callback to the notifier object.
+1. Post a notification with an associated value.
+1. (Unobserve the notification)
 
 ## License
 
