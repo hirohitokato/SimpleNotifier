@@ -35,3 +35,7 @@ notifier.remove_observer(token);
 3. Register a callback to the notifier object.
 4. Post a notification with an associated value.
 5. (Unobserve the notification)
+
+## License
+
+[MIT License](https://github.com/hirohitokato/SimpleNotifier/blob/main/LICENSE).
