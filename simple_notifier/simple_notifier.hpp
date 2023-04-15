@@ -32,6 +32,11 @@ namespace SimpleNotifier {
         /// An identifier of the token object.
         const int id;
 
+        ~NotificationToken()
+        {
+            notifier_->remove_observer(this);
+        }
+
     private:
         NotificationToken(int id,
                           _Removable *notifier,
@@ -39,11 +44,6 @@ namespace SimpleNotifier {
                           const Any &any_callback):
         id(id), notifier_(notifier), notification_(notification), any_callback_(any_callback)
         {}
-
-        ~NotificationToken()
-        {
-            notifier_->remove_observer(this);
-        }
     };
 
 
