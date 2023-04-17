@@ -46,7 +46,6 @@ namespace SimpleNotifier {
         {}
     };
 
-
     /// A notification dispatch mechanism that enables the broadcast of information to registered observers.
     class Notifier: public _Removable {
         std::mutex mutex_;
